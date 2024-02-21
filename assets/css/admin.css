@@ -12,7 +12,7 @@
     border-left-color: red!important;
 }
 
-.form-table td {
+.smmgk-design-form .form-table td {
     padding-bottom: 15px;
 }
 
@@ -38,6 +38,6 @@ form .smmgk_current_gmt {
     }
 }
 
-.timestamp-wrap>select {
+.smmgk-design-form .timestamp-wrap>select {
     vertical-align: top;
 }
