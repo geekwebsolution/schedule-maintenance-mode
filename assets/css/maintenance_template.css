@@ -17,20 +17,7 @@ html {
 }
 .smmgk_maintenance body {
 		background-size: 100% 100%;
-	}	
-	/*
-@media(min-width:992px){
-	.smmgk_maintenance body {
-		background-size: 100% 100%;
-	}	
 }
-
-@media(max-width:991px){
-	body {
-		background-position: top;
-	}
-}
-*/
 .smmgk_maintenance h1,
 .smmgk_maintenance h2,
 .smmgk_maintenance h3,

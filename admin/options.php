@@ -145,164 +145,162 @@ if(isset($options['seo_favicon'])) 			$seo_favicon=$options['seo_favicon'];
 if(isset($options['seo_title'])) 			$seo_title=$options['seo_title'];
 if(isset($options['seo_description'])) 		$seo_description=$options['seo_description'];
 if(isset($options['analytic_code'])) 		$analytic_code=wp_unslash($options['analytic_code']);
-global $smmgk_months;
+
+$smmgk_months=array("01"=>"Jan","02"=>"Feb","03"=>"Mar","04"=>"Apr","05"=>"May","06"=>"Jun","07"=>"Jul","08"=>"Aug","09"=>"Sep","10"=>"Oct","11"=>"Nov","12"=>"Dec");
 ?>
 <div class="wrap">
-	<h2>Schedule Maintenance Mode</h2>
+	<h2><?php echo esc_html__('Schedule Maintenance Mode','schedule-maintenance-mode'); ?></h2>
 	<h2 class="nav-tab-wrapper smmgk_maintenance-tabing">
-		<a href="?page=smmgk-schedule-maintenance-mode&tab=general_setting" class="nav-tab <?php if((isset($_REQUEST['tab']) &&$_REQUEST['tab'] =='general_setting') || !isset($_REQUEST['tab'])){ echo 'smmgk_active_tab';} ?>"><span class="dashicons dashicons-admin-tools"></span> General Setting</a>
-		<a href="?page=smmgk-schedule-maintenance-mode&tab=design" class="nav-tab <?php if(isset($_REQUEST['tab']) && $_REQUEST['tab']=='design'){ echo 'smmgk_active_tab';} ?>"> <span class="dashicons dashicons-art"></span>Design</a>
-		<a href="?page=smmgk-schedule-maintenance-mode&tab=seo" class="nav-tab <?php if(isset($_REQUEST['tab']) && $_REQUEST['tab']=='seo'){ echo 'smmgk_active_tab';} ?>"> <span class="dashicons dashicons-search"></span>SEO</a>
-		<a href="<?php echo site_url(); ?>?smmgk_preview=true" target="_blank"class="nav-tab"> <span class="dashicons dashicons-share-alt2"></span> Live Preview</a>
-		
+		<a href="?page=smmgk-schedule-maintenance-mode&tab=general_setting" class="nav-tab <?php if((isset($_REQUEST['tab']) &&$_REQUEST['tab'] =='general_setting') || !isset($_REQUEST['tab'])){ echo 'smmgk_active_tab';} ?>"><span class="dashicons dashicons-admin-tools"></span> <?php echo esc_html__('General Setting','schedule-maintenance-mode'); ?></a>
+		<a href="?page=smmgk-schedule-maintenance-mode&tab=design" class="nav-tab <?php if(isset($_REQUEST['tab']) && $_REQUEST['tab']=='design'){ echo 'smmgk_active_tab';} ?>"> <span class="dashicons dashicons-art"></span><?php echo esc_html__('Design','schedule-maintenance-mode'); ?></a>
+		<a href="?page=smmgk-schedule-maintenance-mode&tab=seo" class="nav-tab <?php if(isset($_REQUEST['tab']) && $_REQUEST['tab']=='seo'){ echo 'smmgk_active_tab';} ?>"> <span class="dashicons dashicons-search"></span><?php echo esc_html__('SEO','schedule-maintenance-mode'); ?></a>
+		<a href="<?php echo site_url(); ?>?smmgk_preview=true" target="_blank"class="nav-tab"> <span class="dashicons dashicons-share-alt2"></span> <?php echo esc_html__('Live Preview','schedule-maintenance-mode'); ?></a>
 	</h2>
 	<div class='inner'>
 		<?php 
-	if(isset($_REQUEST['tab']) && $_REQUEST['tab']=='design'){ ?>
-		<form method="POST" class="smmgk-design-form">
-			<table class="form-table">
-				<tbody>
-					<tr valign="top">
-						<th scope="row">Logo</th>
-						<td>
-							<input type="text" name="logo" id="smmgk_logo" value=<?php echo $logo; ?>>
-							<input id="smmgk_logo_button" type="button" value="Media Image Library" />
-							<p class="description">Upload a logo or teaser image (or) enter the url to your image.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row">Background Image</th>
-						<td>
-							<input type="text" name="background" id="smmgk_background" value=<?php echo $background; ?>>
-							<input id="smmgk_background_button" type="button" value="Media Image Library" />
-							<p class="description">Upload a logo or teaser image (or) enter the url to your image.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row">Headline</th>
-						<td>
-							<input type="text" name="headline" value="<?php echo $headline; ?>">
-							<p class="description">Enter a headline for your page.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row">CountDown</th>
-						<td>
-							<input type="checkbox" name="countdown" value="1" <?php if($countdown==1){ echo "checked"; } ?>> Enable<br>
-							<p class="description">its a showing CountDown on maintenance page.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row">Maintenance Message</th>
-						<td>
-							<?php 
-				$editor_id = 'maintenance_content';
-				wp_editor( htmlspecialchars_decode(stripslashes($maintenance_content)), $editor_id );
-				?>
-							<p class="description">Enter a Content message which is showing durring enable maintenance mode.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row">Text Color</th>
-						<td>
-							<input type="text" name="textcolor" class="smmgk_colorpicker" value="<?php echo $textcolor; ?>">
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row">Link Color</th>
-						<td>
-							<input type="text" name="linkcolor" class="smmgk_colorpicker" value="<?php echo $linkcolor; ?>">
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row">Headline Color</th>
-						<td>
-							<input type="text" name="headlinecolor" class="smmgk_colorpicker" value="<?php echo $headlinecolor; ?>">
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<input type="hidden" id="_wpnonce" name="wpnonce_design" value="<?php echo $nonce = wp_create_nonce('smmgk_schedule_maintenance_design'); ?>" />
-			<input class="button-primary" type="submit" value="Update" name="Save_Design">
-		</form>
-		<?php }
-	elseif (isset($_REQUEST['tab']) && $_REQUEST['tab']=='seo'){ 
-?>
-		<form method="POST" class="smmgk-seo-tab">
-			<table class="form-table">
-				<tbody>
-					<tr valign="top">
-						<th scope="row">Favicon</th>
-						<td>
-							<input type="text" name="seo_favicon" id="seo_favicon" value=<?php echo $seo_favicon; ?>>
-							<input id="seo_favicon_button" type="button" value="Media Image Library" />
-							<p class="description">Favicons are displayed in a browser tab.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row">SEO Title</th>
-						<td>
-							<input type="text" name="seo_title" value="<?php echo $seo_title; ?>">
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row">SEO Meta Description</th>
-						<td>
-							<input type="text" name="seo_description" value="<?php echo $seo_description;?>">
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row">Analytics Code</th>
-						<td>
-							<textarea name="analytic_code" rows="6"><?php echo $analytic_code; ?></textarea>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<input type="hidden" id="_wpnonce" name="wpnonce_seo" value="<?php echo $nonce = wp_create_nonce('smmgk_schedule_maintenance_seo'); ?>" />
-			<input class="button-primary" type="submit" value="Update" name="Save_Seo">
-		</form>
-		<?php
-	}
- else {?>
+		if(isset($_REQUEST['tab']) && $_REQUEST['tab']=='design') { ?>
+			<form method="POST" class="smmgk-design-form">
+				<table class="form-table">
+					<tbody>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('Logo','schedule-maintenance-mode'); ?></th>
+							<td>
+								<input type="text" name="logo" id="smmgk_logo" value=<?php echo $logo; ?>>
+								<input id="smmgk_logo_button" type="button" value="Media Image Library" />
+								<p class="description"><?php echo esc_html__('Upload a logo or teaser image (or) enter the url to your image.','schedule-maintenance-mode'); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('Background Image','schedule-maintenance-mode'); ?></th>
+							<td>
+								<input type="text" name="background" id="smmgk_background" value=<?php echo $background; ?>>
+								<input id="smmgk_background_button" type="button" value="Media Image Library" />
+								<p class="description"><?php echo esc_html__('Upload a background image or teaser image (or) enter the url to your image.','schedule-maintenance-mode'); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('Headline','schedule-maintenance-mode'); ?></th>
+							<td>
+								<input type="text" name="headline" value="<?php echo $headline; ?>">
+								<p class="description"><?php echo esc_html__('Enter a headline for your page.','schedule-maintenance-mode'); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('CountDown','schedule-maintenance-mode'); ?></th>
+							<td>
+								<input type="checkbox" name="countdown" value="1" <?php if($countdown==1){ echo esc_attr__("checked"); } ?>>Enable<br>
+								<p class="description"><?php echo esc_html__('its a showing CountDown on maintenance page.','schedule-maintenance-mode'); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('Maintenance Message','schedule-maintenance-mode'); ?></th>
+							<td>
+								<?php 
+								$editor_id = 'maintenance_content';
+								wp_editor( htmlspecialchars_decode(stripslashes($maintenance_content)), $editor_id );
+								?>
+								<p class="description"><?php echo esc_html__('Enter a Content message which is showing durring enable maintenance mode.','schedule-maintenance-mode'); ?></p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('Text Color','schedule-maintenance-mode'); ?></th>
+							<td>
+								<input type="text" name="textcolor" class="smmgk_colorpicker" value="<?php echo $textcolor; ?>">
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('Link Color','schedule-maintenance-mode'); ?></th>
+							<td>
+								<input type="text" name="linkcolor" class="smmgk_colorpicker" value="<?php echo $linkcolor; ?>">
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('Headline Color','schedule-maintenance-mode'); ?></th>
+							<td>
+								<input type="text" name="headlinecolor" class="smmgk_colorpicker" value="<?php echo $headlinecolor; ?>">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="hidden" id="_wpnonce" name="wpnonce_design" value="<?php echo $nonce = wp_create_nonce('smmgk_schedule_maintenance_design'); ?>" />
+				<input class="button-primary" type="submit" value="Update" name="Save_Design">
+			</form> 
+			<?php 
+		} elseif (isset($_REQUEST['tab']) && $_REQUEST['tab']=='seo') { ?>
+			<form method="POST" class="smmgk-seo-tab">
+				<table class="form-table">
+					<tbody>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('Favicon','schedule-maintenance-mode'); ?></th>
+							<td>
+								<input type="text" name="seo_favicon" id="seo_favicon" value=<?php echo $seo_favicon; ?>>
+								<input id="seo_favicon_button" type="button" value="Media Image Library" />
+								<p class="description">Favicons are displayed in a browser tab.</p>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('SEO Title','schedule-maintenance-mode'); ?></th>
+							<td>
+								<input type="text" name="seo_title" value="<?php echo $seo_title; ?>">
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('SEO Meta Description','schedule-maintenance-mode'); ?></th>
+							<td>
+								<input type="text" name="seo_description" value="<?php echo $seo_description;?>">
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php echo esc_html__('Analytics Code','schedule-maintenance-mode'); ?></th>
+							<td>
+								<textarea name="analytic_code" rows="6"><?php echo $analytic_code; ?></textarea>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="hidden" id="_wpnonce" name="wpnonce_seo" value="<?php echo $nonce = wp_create_nonce('smmgk_schedule_maintenance_seo'); ?>" />
+				<input class="button-primary" type="submit" value="Update" name="Save_Seo">
+			</form>
+			<?php
+		} else { ?>
 			<form method="POST">
 				<table class="form-table">
 					<tbody>
 						<tr valign="top">
-							<th scope="row">Status </th>
+							<th scope="row"><?php echo esc_html__('Status','schedule-maintenance-mode'); ?> </th>
 							<td>
 								<select id="" name="status">
-									<option value="1" <?php if($status==1){ echo "selected"; } ?>>Enabled</option>
-									<option value="0" <?php if($status==0){ echo "selected"; } ?>>Disabled</option>
+									<option value="1" <?php if($status==1){ echo esc_attr__("selected"); } ?>>Enabled</option>
+									<option value="0" <?php if($status==0){ echo esc_attr__("selected"); } ?>>Disabled</option>
 								</select>
-								<p class="description">If status is enable then it will be automatically showing maintenance page between start time and end time, and after end time status will be disable.</p>
+								<p class="description"><?php echo esc_html__('If status is enable then it will be automatically showing maintenance page between start time and end time, and after end time status will be disable.','schedule-maintenance-mode'); ?></p>
 							</td>
 						</tr> 
 						<tr valign="top">
-							<th scope="row">Start Time (GMT)</th>
+							<th scope="row"><?php echo esc_html__('Start Time (GMT)','schedule-maintenance-mode'); ?></th>
 							<td>
 								<div class="timestamp-wrap">
-									<span class="screen-reader-text">Month</span>
+									<span class="screen-reader-text"><?php echo esc_html__('Month','schedule-maintenance-mode'); ?></span>
 									<select id="mm" name="st_mm">
-				<?php  foreach($smmgk_months as $key =>$value) {?>
-					<option value="<?php echo $key; ?>" data-text="<?php echo $value; ?>" <?php if($st_mm==$key) { echo "selected";} ?>><?php echo $key."-".$value; ?></option>
-				<?php } ?>
-				</select>
-									<span class="screen-reader-text">Day</span><input type="text" id="dd" name="st_dd" value="<?php echo $st_dd; ?>" size="2" maxlength="2" autocomplete="off">,
-									<span class="screen-reader-text">Year</span><input type="text" id="yy" name="st_yy" value="<?php echo $st_yy; ?>" size="4" maxlength="4" autocomplete="off"> @
-									<span class="screen-reader-text">Hour</span><input type="text" id="hh" name="st_hh" value="<?php echo $st_hh; ?>" size="2" maxlength="2" autocomplete="off">:
-									<span class="screen-reader-text">Minute</span><input type="text" id="mn" name="st_mn" value="<?php echo $st_mn; ?>" size="2" maxlength="2" autocomplete="off"> <span class="smmgk_gmt">GMT</span></div>
-								<p class="description">The start time (m-d-Y H:i) that enable to showing maintenance page</p>
+										<?php  foreach($smmgk_months as $key =>$value) {?>
+											<option value="<?php echo $key; ?>" data-text="<?php echo $value; ?>" <?php if($st_mm==$key) { echo "selected";} ?>><?php echo $key."-".$value; ?></option>
+										<?php } ?>
+									</select>
+									<span class="screen-reader-text"><?php echo esc_html__('Day','schedule-maintenance-mode'); ?></span><input type="text" id="dd" name="st_dd" value="<?php echo $st_dd; ?>" size="2" maxlength="2" autocomplete="off">,
+									<span class="screen-reader-text"><?php echo esc_html__('Year','schedule-maintenance-mode'); ?></span><input type="text" id="yy" name="st_yy" value="<?php echo $st_yy; ?>" size="4" maxlength="4" autocomplete="off"> @
+									<span class="screen-reader-text"><?php echo esc_html__('Hour','schedule-maintenance-mode'); ?></span><input type="text" id="hh" name="st_hh" value="<?php echo $st_hh; ?>" size="2" maxlength="2" autocomplete="off">:
+									<span class="screen-reader-text"><?php echo esc_html__('Minute','schedule-maintenance-mode'); ?></span><input type="text" id="mn" name="st_mn" value="<?php echo $st_mn; ?>" size="2" maxlength="2" autocomplete="off"> <span class="smmgk_gmt">GMT</span></div>
+								<p class="description"><?php echo esc_html__('The start time (m-d-Y H:i) that enable to showing maintenance page','schedule-maintenance-mode'); ?></p>
 							</td>
 						</tr>
 						<tr valign="top">
-							<th scope="row">End Time (GMT)</th>
+							<th scope="row"><?php echo esc_html__('End Time (GMT)','schedule-maintenance-mode'); ?></th>
 							<td>
 								<div class="timestamp-wrap">
-									<span class="screen-reader-text">Month</span>
+									<span class="screen-reader-text"><?php echo esc_html__('Month','schedule-maintenance-mode'); ?></span>
 									<select id="mm" name="end_mm">
 										<?php  foreach($smmgk_months as $key =>$value) {?>
-											<option value="<?php echo $key; ?>" data-text="<?php echo $value; ?>" <?php if( $end_mm==$key){ echo "selected";}?> ><?php echo $key."-".$value; ?></option>
+											<option value="<?php echo $key; ?>" data-text="<?php echo $value; ?>" <?php if( $end_mm==$key){ echo esc_attr__("selected");}?> ><?php echo $key."-".$value; ?></option>
 										<?php } ?>
 									</select>
 									<span class="screen-reader-text">Day</span><input type="text" id="dd" name="end_dd" value="<?php echo $end_dd; ?>" size="2" maxlength="2" autocomplete="off">,
@@ -310,16 +308,16 @@ global $smmgk_months;
 									<span class="screen-reader-text">Hour</span><input type="text" id="hh" name="end_hh" value="<?php echo $end_hh; ?>" size="2" maxlength="2" autocomplete="off">:
 									<span class="screen-reader-text">Minute</span><input type="text" id="mn" name="end_mn" value="<?php echo $end_mn; ?>" size="2" maxlength="2" autocomplete="off"> <span class="smmgk_gmt">GMT</span>
 								</div>
-								<p class="description">The end time (m-d-Y H:i) that disable to showing maintenance page</p>
+								<p class="description"><?php echo esc_html__('The end time (m-d-Y H:i) that disable to showing maintenance page','schedule-maintenance-mode'); ?></p>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 				<input type="hidden" id="_wpnonce" name="_wpnonce" value="<?php echo $nonce = wp_create_nonce('smmgk_schedule_maintenance_setting'); ?>" />
-				<p class="description smmgk_current_gmt">Current GMT time is: <strong><?php echo date("m-d-Y @ H:i",$now); ?></strong></p>
+				<p class="description smmgk_current_gmt"><?php echo esc_html__('Current GMT time is:','schedule-maintenance-mode'); ?> <strong><?php echo date("m-d-Y @ H:i",$now); ?></strong></p>
 				<input class="button-primary" type="submit" value="Update" name="Save_Options">
-		</form>
-			<?php }?>
+			</form><?php 
+		} ?>
 	</div>
 </div>
 <script>
@@ -329,5 +327,4 @@ global $smmgk_months;
 			$('.smmgk_colorpicker').wpColorPicker();
 		});
 	})(jQuery);
-	    
 </script>
