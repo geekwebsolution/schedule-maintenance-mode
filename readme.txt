@@ -3,9 +3,9 @@ Contributors: rajkakadiya, rvadhel
 Donate link: https://paypal.me/rvadhel
 Tags: Schedule Maintenance Mode, automatic active Maintenance mode, automatic de-active Maintenance mode,
 Requires PHP: 7.4
-Requires at least: 6.4
-Tested up to: 6.4.2
-Stable tag: 2.0
+Requires at least: 6.3
+Tested up to: 6.5
+Stable tag: 2.1
 
 The Schedule Maintenance Mode plugin allows to you quickly create a maintenance page or under construction page for Any Specific Start and end time. Simply activate the plugin, Setup Start Time, End Time, Page Title and Description then your page is ready to go.
 == Description ==
@@ -87,3 +87,6 @@ Fix bug
 
 = 2.0 =
  Fixed bugs.
+
+= 2.1 =
+ Tested up to wp version 6.5
