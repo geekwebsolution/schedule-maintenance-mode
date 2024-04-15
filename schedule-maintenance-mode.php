@@ -3,12 +3,12 @@
 Plugin Name: Schedule Maintenance Mode
 Description: Enable Maintenance page for any specific interval time or specified by you. 
 Author: Geek Code Lab
-Version: 2.1
+Version: 2.0.0
 Author URI: https://geekcodelab.com/
 Text Domain: schedule-maintenance-mode
 */
 if ( ! defined( 'ABSPATH' ) ) exit;
-define('SMMGK_BUILD', "2.1");
+define('SMMGK_BUILD', "2.0.0");
 define('SMMGK_PATH', plugin_dir_path(__FILE__));
 define('SMMGK_URL', plugins_url() . '/'.  basename(dirname(__FILE__)));
 require_once SMMGK_PATH . 'functions.php';
