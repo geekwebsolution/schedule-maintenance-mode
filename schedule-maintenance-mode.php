@@ -3,13 +3,12 @@
 Plugin Name: Schedule Maintenance Mode
 Description: Enable Maintenance page for any specific interval time or specified by you. 
 Author: Geek Code Lab
-Version: 2.0
+Version: 2.1
 Author URI: https://geekcodelab.com/
 Text Domain: schedule-maintenance-mode
 */
-
 if ( ! defined( 'ABSPATH' ) ) exit;
-define('SMMGK_BUILD', "2.0");
+define('SMMGK_BUILD', "2.1");
 define('SMMGK_PATH', plugin_dir_path(__FILE__));
 define('SMMGK_URL', plugins_url() . '/'.  basename(dirname(__FILE__)));
 require_once SMMGK_PATH . 'functions.php';
@@ -32,17 +31,17 @@ function smmgk_plugin_add_settings_link( $links ) {
 /**
  * On register activation
  */
-register_activation_hook( __FILE__ , 'smmgk_schedule_maintenance_plugin_active' );
+register_activation_hook(__FILE__, 'smmgk_schedule_maintenance_plugin_active');
 function smmgk_schedule_maintenance_plugin_active()
 {
-	$options= smmgk_get_options();
+	$options= get_option('smmgk_schedule_maintenance',array());
 	if(!isset($options['headline'])) {
-		$options['headline']='Website is under construction';
+		$options['headline']= "Website is under construction";
 		update_option('smmgk_schedule_maintenance',$options);
 	}
 
 	if(!isset($options['maintenance_content'])) {
-		$options['maintenance_content']="We'll be back with a newly updated website shortly!";
+		$options['maintenance_content']= "We'll be back with a newly updated website shortly!";
 		update_option('smmgk_schedule_maintenance',$options);
 	}
 }

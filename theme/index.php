@@ -75,6 +75,3 @@ if(isset($end_time) && !empty($end_time))		$time_diff=smmgk_time_diff_from_now($
 		</script>
 	</body>
 </html>
-
-<!-- Coming Soon Page and Maintenance Mode by Geek Web Solution. Learn more: http://www.geekwebsolution.com -->
- 

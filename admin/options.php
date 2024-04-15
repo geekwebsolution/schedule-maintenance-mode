@@ -321,10 +321,6 @@ $smmgk_months=array("01"=>"Jan","02"=>"Feb","03"=>"Mar","04"=>"Apr","05"=>"May",
 	</div>
 </div>
 <script>
-	(function($) {
-		// Add Color Picker to all inputs that have 'color-field' class
-		$(function() {
-			$('.smmgk_colorpicker').wpColorPicker();
-		});
-	})(jQuery);
+	// Add Color Picker to all inputs that have 'color-field' class
+	(function($) { $(function() { $('.smmgk_colorpicker').wpColorPicker(); }); })(jQuery);
 </script>
