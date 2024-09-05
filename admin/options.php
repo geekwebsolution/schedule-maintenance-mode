@@ -1,7 +1,7 @@
 <?php  
 $options= smmgk_get_options();
 $smmgk_error=false;
-$now=current_time( 'timestamp');
+$now=current_time( 'timestamp', true );
 if(isset($_POST['Save_Options']))
 { 
 	$status=sanitize_text_field($_POST['status']);
@@ -100,8 +100,8 @@ if(isset($_POST['Save_Seo']))
     }
 	
 }
-$start_time=current_time( 'timestamp');
-$end_time=current_time( 'timestamp');
+$start_time=current_time( 'timestamp', true );
+$end_time=current_time( 'timestamp', true );
 $st_yy=date('Y', $start_time);
 $st_mm=date('m', $start_time);
 $st_dd=date('d', $start_time);
