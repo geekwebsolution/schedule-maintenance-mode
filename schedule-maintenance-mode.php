@@ -11,8 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 define('SMMGK_BUILD', "2.0.1");
 define('SMMGK_PATH', plugin_dir_path(__FILE__));
 define('SMMGK_URL', plugins_url() . '/'.  basename(dirname(__FILE__)));
-require_once SMMGK_PATH . 'functions.php';
 
+if (!defined("SMMGK_PLUGIN_DIR")) define("SMMGK_PLUGIN_DIR", plugin_basename(__DIR__));
+if (!defined("SMMGK_PLUGIN_BASENAME")) define("SMMGK_PLUGIN_BASENAME", plugin_basename(__FILE__));
+
+require_once SMMGK_PATH . 'functions.php';
+require(SMMGK_PATH . 'updater/updater.php');
 /**
  * Plugin setting links
  */
@@ -34,6 +38,8 @@ function smmgk_plugin_add_settings_link( $links ) {
 register_activation_hook(__FILE__, 'smmgk_schedule_maintenance_plugin_active');
 function smmgk_schedule_maintenance_plugin_active()
 {
+	smmgk_updater_activate();
+
 	$options= get_option('smmgk_schedule_maintenance',array());
 	if(!isset($options['headline'])) {
 		$options['headline']= "Website is under construction";
@@ -45,6 +51,8 @@ function smmgk_schedule_maintenance_plugin_active()
 		update_option('smmgk_schedule_maintenance',$options);
 	}
 }
+
+add_action('upgrader_process_complete', 'smmgk_updater_activate'); // remove  transient  on plugin  update
 
 /**
  * Enqueue admin scripts
