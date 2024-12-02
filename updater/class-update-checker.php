@@ -24,6 +24,12 @@ if (!class_exists('SMMGK_Update_Checker')) {
 
         /**
          * Request update information from the API.
+         *
+         * This function sends a GET request to the specified API endpoint to retrieve
+         * information about the latest version of the plugin. It handles the response
+         * and returns the parsed JSON data.
+         *
+         * @return mixed|false The parsed JSON data on success, or false on failure.
          */
         public function request_info() {
             $response = wp_remote_get(
@@ -33,23 +39,40 @@ if (!class_exists('SMMGK_Update_Checker')) {
                     'headers' => ['Accept' => 'application/json'],
                 ]
             );
-            //$this->get_api . "gcl-free-plugins/plugins/{$this->plugin_slug}/plugininfo.json",
+
+            // Check if the request was successful and the response code is 200
             if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
                 return false;
             }
 
+            // Retrieve the response body
             $response_body = wp_remote_retrieve_body($response);
+
+            // Parse the JSON data
             $data = json_decode($response_body);
 
+            // Check if there were any JSON parsing errors
             if (json_last_error() !== JSON_ERROR_NONE) {
                 return false;
             }
 
+            // Return the parsed JSON data
             return $data;
         }
 
         /**
-         * Check for plugin updates.
+         * Checks for available updates for the plugin and updates the transient data accordingly.
+         *
+         * This function is hooked into the 'pre_set_site_transient_update_plugins' filter
+         * and is responsible for checking if there is a new version of the plugin available.
+         * It retrieves update information from a remote API and updates the transient data
+         * used by WordPress to manage plugin updates.
+         *
+         * @param object $transient The transient object containing update information for all plugins.
+         *                          This object is passed by reference and modified directly.
+         * 
+         * @return object The modified transient object with updated information for this plugin.
+         *                If no update is available, the original transient object is returned.
          */
         public function check_for_updates($transient) {
 
@@ -90,7 +113,17 @@ if (!class_exists('SMMGK_Update_Checker')) {
         }
 
         /**
-         * Provide plugin information for the 'View details' popup.
+         * Provides detailed information about the plugin for the 'View details' popup.
+         *
+         * This function is hooked into the 'plugins_api' filter and is responsible for
+         * returning detailed information about the plugin when requested by WordPress.
+         * It retrieves the information from a remote API and formats it for display.
+         *
+         * @param mixed  $false  Default return value (false) if no information is available.
+         * @param string $action The type of information being requested. Should be 'plugin_information'.
+         * @param object $args   An object containing the request arguments, including the plugin slug.
+         *
+         * @return object|false An object containing the plugin information if available, or false if not.
          */
         public function plugin_info($false, $action, $args) {
             if ($action !== 'plugin_information' || $args->slug !== $this->plugin_slug) {
@@ -101,7 +134,7 @@ if (!class_exists('SMMGK_Update_Checker')) {
             if (!$remote) {
                 return $false;
             }
-          
+
             $plugin_info = new stdClass();
             $plugin_info->name = $remote->name ?? '';
             $plugin_info->slug = $this->plugin_slug;
@@ -114,7 +147,7 @@ if (!class_exists('SMMGK_Update_Checker')) {
             $plugin_info->requires_php = $remote->requires_php ?? '';
             $plugin_info->active_installs = $remote->active_installs ?? '';
             $plugin_info->banners = (array)$remote->banners ?? '';
-           
+
             $plugin_info->homepage = $remote->url ?? '';
             $plugin_info->sections = [
                 'description' => $remote->description ?? '',
